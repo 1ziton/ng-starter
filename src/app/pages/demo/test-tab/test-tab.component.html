@@ -1,0 +1,45 @@
+<div class="content-container">
+    <div class="content-header">
+        <div nz-row>
+            <div class="content-title" nz-col nzSpan="2">
+                <p>供应商</p>
+            </div>
+            <div nz-col nzSpan="20" class="content-search-details">
+                <!-- <search-list [valueObj]="valueObj" [labelObj]="labelObj" (close)="closeSearch($event)"></search-list> -->
+            </div>
+            <div class="content-btn" nz-col nzSpan="2">
+                <button nz-button [nzType]="'primary'" (click)="showAddModel(true)">新增供应商</button>
+            </div>
+        </div>
+    </div>
+    <div class="table">
+        <yzt-grid [columns]="columns" [mulitipy]="false" [hideCheck]="true" #grid_basic [scroll]="{y: '300px' , x : '1280px'}" [data]="data" (load)="loadData($event)"
+            [searchTmpl]="[search_name,search_phone]" [(selection)]="selections">
+            <custom-template [ui_grid]="grid_basic" [outField]="'operate'">
+                <ng-template #customTemplate let-id="id" let-context>
+                    <a  href="javascript:void(0)" (click)="showAddModel(false,$event,id)">编辑</a>
+                    <nz-divider  nzType="vertical"></nz-divider>
+                    <a  href="javascript:void(0)" (click)="handleDelete($event,id)">删除</a>
+                </ng-template>
+            </custom-template>
+            <ng-template #search_name>
+                <div class="margin-bottom-12">
+                    <input type="text" nz-input placeholder="请输入供应商名称" style="width: 100%" [(ngModel)]="searchField.name"
+                        (keyup.enter)="searchStream$.next($event)">
+                </div>
+                <div class="text-right">
+                    <button nz-button nzType="primary" (click)="searchStream$.next()">确定</button>
+                </div>
+            </ng-template>
+            <ng-template #search_phone>
+                <div class="margin-bottom-12">
+                    <input type="text" nz-input placeholder="请输入手机号" style="width: 100%" [(ngModel)]="searchField.phone"
+                        (keyup.enter)="searchStream$.next($event)">
+                </div>
+                <div class="text-right">
+                    <button nz-button nzType="primary" (click)="searchStream$.next()">确定</button>
+                </div>
+            </ng-template>
+        </yzt-grid>
+    </div>
+</div>

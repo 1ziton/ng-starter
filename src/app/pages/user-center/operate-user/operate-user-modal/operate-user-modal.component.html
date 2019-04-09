@@ -1,0 +1,159 @@
+ <form nz-form [formGroup]="validateForm" class="margin-right-10">
+    <nz-row nzType="flex" nzGutter="20">
+        <nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzSpan="24" nzRequired>手机号</nz-form-label>
+                <nz-form-control nzSpan="24">
+                    <input nz-input formControlName="mobile"
+                        [placeholder]="'请输入'" maxlength="11">
+                    <nz-form-explain
+                        *ngIf="validateForm.get('mobile').dirty&&
+                        validateForm.get('mobile').hasError('required')">
+                        <span style="color:red">请填写手机号</span></nz-form-explain>
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+        <nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzSpan="24" nzRequired>用户名称</nz-form-label>
+                <nz-form-control nzSpan="24">
+                    <input nz-input formControlName="name" [placeholder]="'请输入'"
+                        maxlength="30">
+                    <nz-form-explain
+                        *ngIf="validateForm.get('name').dirty&&
+                        validateForm.get('name').hasError('required')">
+                        请填写用户名称</nz-form-explain>
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+        <nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzSpan="24" nzRequired>真实姓名</nz-form-label>
+                <nz-form-control nzSpan="24">
+                    <input nz-input formControlName="realName"
+                        [placeholder]="'请输入'" maxlength="20">
+                    <nz-form-explain
+                        *ngIf="validateForm.get('realName').dirty&&
+                        validateForm.get('realName').hasError('required')">
+                        <span style="color:red">请填写真实姓名</span></nz-form-explain>
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+
+        <nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzSpan="24" nzRequired>岗位</nz-form-label>
+                <nz-form-control nzSpan="24">
+                    <nz-select nzPlaceHolder="请选择" formControlName="jobTitle">
+                        <nz-option nzLabel="经理" nzValue="经理"></nz-option>
+                        <nz-option nzLabel="员工" nzValue="员工"></nz-option>
+                    </nz-select>
+                    <nz-form-explain
+                        *ngIf="validateForm.get('jobTitle').dirty&&
+                        validateForm.get('jobTitle').hasError('required')">
+                        <span style="color:red">请填写岗位</span></nz-form-explain>
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+        <nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzSpan="24" nzRequired>工号</nz-form-label>
+                <nz-form-control nzSpan="24">
+                    <input nz-input formControlName="employeeNo"
+                        [placeholder]="'请输入'" maxlength="50">
+                    <nz-form-explain
+                        *ngIf="validateForm.get('employeeNo').dirty&&
+                        validateForm.get('employeeNo').hasError('required')">
+                        <span style="color:red">请填写工号</span></nz-form-explain>
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+        <nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzSpan="24">花名</nz-form-label>
+                <nz-form-control nzSpan="24">
+                    <input nz-input formControlName="nickName"
+                        [placeholder]="'请输入'" maxlength="50">
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+        <nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzSpan="24">邮箱</nz-form-label>
+                <nz-form-control nzSpan="24">
+                    <input nz-input formControlName="email"
+                        [placeholder]="'请输入'" maxlength="50">
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+        <nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzSpan="24">直属上级</nz-form-label>
+                <nz-form-control nzSpan="24">
+                    <input nz-input formControlName="directSuperiorName"
+                        [placeholder]="'请输入'" maxlength="50">
+                    <!--  <nz-form-explain
+                        *ngIf="validateForm.get('directSuperiorName').dirty&&
+                        validateForm.get('directSuperiorName').hasError('required')">
+                        <span style="color:red">请选择直属上级</span></nz-form-explain> -->
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+        <nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzSpan="24">性别</nz-form-label>
+                <nz-form-control nzSpan="24">
+                    <nz-select nzPlaceHolder="请选择" formControlName="sex">
+                        <nz-option nzLabel="男" nzValue="MALE"></nz-option>
+                        <nz-option nzLabel="女" nzValue="FEMALE"></nz-option>
+                    </nz-select>
+                    <!-- <nz-form-explain *ngIf="validateForm.get('sex').dirty&&
+                                validateForm.get('sex').hasError('required')">
+                        <span style="color:red">请选择性别</span></nz-form-explain> -->
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+        <nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzSpan="24">生日</nz-form-label>
+                <nz-form-control nzSpan="24">
+                    <nz-date-picker nzFormat="yyyy-MM-dd" style="display:
+                        block;"
+                        [nzStyle]="{width:'100%'}"
+                        formControlName="birthday"></nz-date-picker>
+                    <!--  <nz-form-explain
+                                *ngIf="validateForm.get('birthday').dirty&&
+                                validateForm.get('birthday').hasError('required')">
+                                <span style="color:red">请填写生日</span></nz-form-explain> -->
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+        <nz-col nzSpan="12">
+            <nz-form-item>
+                <nz-form-label nzSpan="24">所在地</nz-form-label>
+                <nz-form-control nzSpan="24">
+                    <yzt-area formControlName="areaName"></yzt-area>
+                    <!--  <nz-form-explain
+                                *ngIf="validateForm.get('birthday').dirty&&
+                                validateForm.get('birthday').hasError('required')">
+                                <span style="color:red">请填写生日</span></nz-form-explain> -->
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+        <nz-col nzSpan="24">
+            <nz-form-item>
+                <nz-form-label nzSpan="24">备注</nz-form-label>
+                <nz-form-control nzSpan="24">
+                    <textarea nz-input placeholder="备注信息"
+                        formControlName="remark" style="height: 62px;"
+                        [nzAutosize]="{ minRows: 4, maxRows: 6 }"></textarea>
+                </nz-form-control>
+            </nz-form-item>
+        </nz-col>
+    </nz-row>
+</form>
+
+<div class="modal-footer">
+    <button nz-button [nzType]="'default'" (click)="cancel()">取消</button>
+    <button nz-button [nzType]="'primary'" (click)="save()">保存</button>
+</div>

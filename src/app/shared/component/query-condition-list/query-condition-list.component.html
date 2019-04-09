@@ -1,0 +1,42 @@
+<nz-tabset [nzType]="'card'" [nzSelectedIndex]="_index">
+    <ng-container *ngFor="let tab of conditions | enumfilter:enumFields;
+        trackBy:trackByField">
+        <nz-tab [nzTitle]="titleTemplate" *ngIf="tab.value &&
+            tab.value.length!==0">
+            <ng-template #titleTemplate>
+                <div>
+                    <nz-popover *ngIf="(tab.value?.length> 10); else
+                        elseTextBlock" [nzTrigger]="'hover'"
+                        [nzContent]="nzTemplate" nzPlacement="bottom">
+                        <span class="search-text" nz-popover>
+                            <span class="info-label-color">{{tab.label+'：'}}</span>
+                            {{tab.value}}
+                        </span>
+                        <ng-template #nzTemplate>
+                            <div>
+                                <p style="max-width: 300px;
+                                    white-space:normal;
+                                    word-break:break-all;
+                                    word-wrap:break-word;"
+                                    class="search-text-color">
+                                    <span class="info-label-color">{{tab.label+'：'}}</span>
+                                    {{tab.value}}
+                                </p>
+                            </div>
+                        </ng-template>
+                    </nz-popover>
+                    <ng-template #elseTextBlock>
+                        <span class="search-text">
+                            <span class="info-label-color">{{tab.label+'：'}}</span>
+                            {{tab.value}}
+                        </span>
+                    </ng-template>
+                    <i nz-icon type="close" class="ant-tabs-close-x"
+                        (click)="closeTab(tab)"></i>
+                </div>
+            </ng-template>
+        </nz-tab>
+    </ng-container>
+
+
+</nz-tabset>

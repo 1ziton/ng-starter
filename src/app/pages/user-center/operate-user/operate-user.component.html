@@ -1,0 +1,167 @@
+<div class="content-container">
+    <div class="content-header">
+        <div nz-row>
+            <div class="content-title" nz-col nzSpan="2">
+                <p>运营用户</p>
+            </div>
+            <div nz-col nzSpan="20" class="content-search-details">
+                <query-condition-list [(conditions)]="searchConditions"
+                    [enumFields]="['jobStatus','sex']"
+                    (close)="delCondition($event)"></query-condition-list>
+            </div>
+            <div nz-col nzSpan="2">
+                <button nz-button nzType="primary" (click)="editHandle()">新增用户</button>
+            </div>
+        </div>
+        <div>
+            <nz-tabset [(nzSelectedIndex)]="tabSelectedIndex">
+                <nz-tab *ngFor="let item of tabs" [nzTitle]="item.title"
+                    (nzClick)="tabToggle(item.value)"></nz-tab>
+            </nz-tabset>
+        </div>
+        <div style="padding: 10px 16px;border-top: 1px solid #e8e8e8;">
+            <div class="inline-block margin-right-20">已选中<span style="color:
+                    orangered"> {{selections.length}} </span>条数据</div>
+            <!--  <button nz-button nzType="primary" (click)="editHandle()">新增用户</button> -->
+        </div>
+    </div>
+    <div class="table">
+        <yzt-grid #grid [columns]="columns" [data]="data"
+            [scroll]="{x:'2600px'}"
+            [searchTmpl]="[
+            search_mobile,
+            search_name,
+            search_nickName,
+            search_employeeNo,
+            search_jobTitle,
+            search_createTime,
+            search_realName,
+            search_sex,
+            search_jobStatus,
+            search_directSuperiorName,
+            search_email
+            ]"
+            [selection]="selections" [loading]="loading"
+            (load)="loadData($event)" (selectionChange)="onSelect($event)">
+            <custom-template [ui_grid]="grid" [outField]="'avatarImg'">
+                <ng-template #customTemplate let-url="avatar">
+                    <div class="img-container" yzt-viewer>
+                        <img viewer-content src="{{url + '@w_56,h_56,s_2'}}"
+                            name="{{url}}" />
+                    </div>
+                </ng-template>
+            </custom-template>
+
+            <custom-template [ui_grid]="grid" [outField]="'operate'">
+                <ng-template #customTemplate let-id="id" let-mobile="mobile">
+                    <a click.stop
+                        href="javascript:void(0)"
+                        (click)="editHandle(id)">编辑</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a click.stop
+                        href="javascript:void(0)"
+                        (click)="showModal('resetpass', id,mobile)">重置密码</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a click.stop
+                        (click)="showModal('dimission',id,mobile)">转离职</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a click.stop
+                        href="javascript:void(0)"
+                        (click)="showModal('undimission',id,mobile)">转在职</a>
+                </ng-template>
+            </custom-template>
+        </yzt-grid>
+
+
+        <ng-template #search_mobile>
+            <input class="margin-bottom-12" nz-input
+                [(ngModel)]="qryFields.mobile" placeholder="按手机号搜索"
+                (keyup.enter)="onConfirm()">
+            <ng-container [ngTemplateOutlet]="confirm_button"></ng-container>
+        </ng-template>
+        <ng-template #search_name>
+            <input class="margin-bottom-12" nz-input
+                [(ngModel)]="qryFields.name" placeholder="按用户名称搜索"
+                (keyup.enter)="onConfirm()">
+            <ng-container [ngTemplateOutlet]="confirm_button"></ng-container>
+        </ng-template>
+        <ng-template #search_nickName>
+            <input class="margin-bottom-12" nz-input
+                [(ngModel)]="qryFields.nickName" placeholder="按花名搜索"
+                (keyup.enter)="onConfirm()">
+            <ng-container [ngTemplateOutlet]="confirm_button"></ng-container>
+        </ng-template>
+        <ng-template #search_employeeNo>
+            <input class="margin-bottom-12" nz-input
+                [(ngModel)]="qryFields.employeeNo" placeholder="按职工工号搜索"
+                (keyup.enter)="onConfirm()">
+            <ng-container [ngTemplateOutlet]="confirm_button"></ng-container>
+        </ng-template>
+        <ng-template #search_jobTitle>
+            <input class="margin-bottom-12" nz-input
+                [(ngModel)]="qryFields.jobTitle" placeholder="按岗位搜索"
+                (keyup.enter)="onConfirm()">
+            <ng-container [ngTemplateOutlet]="confirm_button"></ng-container>
+        </ng-template>
+        <ng-template #search_createTime>
+            <nz-range-picker [(ngModel)]="releaseTime" nzFormat="yyyy-MM-dd"
+                [(ngModel)]="qryFields.createTime"
+                (nzOnOpenChange)="onDateOpenChange($event)"></nz-range-picker>
+            <ng-container [ngTemplateOutlet]="confirm_button"></ng-container>
+        </ng-template>
+        <ng-template #search_realName>
+            <input class="margin-bottom-12" nz-input
+                [(ngModel)]="qryFields.realName" placeholder="按真实姓名搜索"
+                (keyup.enter)="onConfirm()">
+            <ng-container [ngTemplateOutlet]="confirm_button"></ng-container>
+        </ng-template>
+        <ng-template #search_sex>
+            <nz-select nzPlaceHolder="性别" style="width: 150px"
+                [(ngModel)]="qryFields.sex" (ngModelChange)="onConfirm()">
+                <nz-option nzLabel="全部" nzValue="ALL"></nz-option>
+                <nz-option nzLabel="男" nzValue="MALE"></nz-option>
+                <nz-option nzLabel="女" nzValue="FEMALE"></nz-option>
+            </nz-select>
+        </ng-template>
+        <!--     <ng-template #search_jobStatus>
+            <nz-select nzPlaceHolder="在职状态" style="width: 150px"
+                *ngIf="qryFields.jobStatus==='ALL'"
+                [(ngModel)]="qryFields.jobStatus" (ngModelChange)="onConfirm()">
+                <nz-option nzLabel="全部" nzValue="ALL"></nz-option>
+                <nz-option nzLabel="在职" nzValue="INSERVICE"></nz-option>
+                <nz-option nzLabel="离职" nzValue="DIMISSION"></nz-option>
+            </nz-select>
+        </ng-template> -->
+        <ng-template #search_directSuperiorName>
+            <input class="margin-bottom-12" nz-input
+                [(ngModel)]="qryFields.directSuperiorName" placeholder="按直属上级搜索"
+                (keyup.enter)="onConfirm()">
+            <ng-container [ngTemplateOutlet]="confirm_button"></ng-container>
+        </ng-template>
+        <ng-template #search_email>
+            <input class="margin-bottom-12" nz-input
+                [(ngModel)]="qryFields.email" placeholder="按邮箱搜索"
+                (keyup.enter)="onConfirm()">
+            <ng-container [ngTemplateOutlet]="confirm_button"></ng-container>
+        </ng-template>
+        <!--   <ng-template #search_salePriceYuan>
+            <div class="margin-bottom-12">
+                <nz-input-number [(ngModel)]="qryFields.salePrice" [nzMin]="0"
+                    [nzStep]="1" [nzFormatter]="formatterYuan"
+                    [nzParser]="parserYuan" (keyup.enter)="priceEnd.focus()">
+                </nz-input-number>
+                -
+                <nz-input-number #priceEnd [(ngModel)]="qryFields.salePrice2"
+                    [nzMin]="0" [nzStep]="1" [nzFormatter]="formatterYuan"
+                    [nzParser]="parserYuan" (keyup.enter)="onConfirm()">
+                </nz-input-number>
+            </div>
+            <ng-container [ngTemplateOutlet]="confirm_button"></ng-container>
+        </ng-template> -->
+    </div>
+    <ng-template #confirm_button>
+        <div class="text-right">
+            <button nz-button nzType="primary" (click)="onConfirm()">确定</button>
+        </div>
+    </ng-template>
+</div>
